@@ -1,0 +1,17 @@
+#include <iostream>
+using std::cin;
+using std:: cout;
+#include <string>
+using std:: string;
+
+int main()
+{
+    string x;
+    string y;
+    cout << "Enter your name: \n";
+    cin >> x;
+    cout << "Enter a relative:\n";
+    cin >> y;
+    cout << "Hello. My name is " << x << ". You killed my " << y << ". Prepare to die.\n";
+    return 0;
+}
