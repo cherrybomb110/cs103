@@ -1,0 +1,31 @@
+#include <iostream>
+using std::cin;
+using std::cout;
+using std:: endl;
+#include <cmath>
+
+bool primetest(int n) {
+    bool prime = true;
+    if (n <= 1) {
+        prime = false;
+    }
+    for(int i=2; i<=sqrt(n); i++) {
+        if(n%i == 0) {
+            prime = false;
+            break;
+        }
+    }
+    return prime;
+}
+
+int main() {
+	unsigned long x;
+	while(cin>>x)
+
+    if (primetest(x)) {
+        cout << 1 << endl;
+    } else {
+        cout << 0 << endl;
+    }
+    return 0;
+}
