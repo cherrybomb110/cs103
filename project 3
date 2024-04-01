@@ -1,0 +1,98 @@
+#include <vector>
+using std::vector;
+#include <iostream>
+using std::cout;
+
+vector<vector<bool> > world = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, /* world[0] */
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, /* world[1] */
+    // ^ (world[1])[2]
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, /* ... */
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+void Steps(vector<vector<bool> >& world, int n) 
+{
+    int rows = world.size();
+    int cols = world[0].size();
+
+    vector<vector<bool> > future(rows, vector<bool>(cols, false));
+
+    for (int i = 0; i < n; i++) 
+    {
+        for (int row = 0; row < rows; row++) 
+        {
+            for (int col = 0; col < cols; col++) 
+            {
+                int Alive = 0;
+
+                
+                for (int i = -1; i <= 1; i++) 
+                {
+                    for (int j = -1; j <= 1; j++) 
+                    {
+                        if (i == 0 && j == 0) 
+                        {
+                            continue;
+                            }
+                        int neighborRow = (row + i + rows) % rows;
+                        int neighborCol = (col + j + cols) % cols;
+                        
+                        if (world[neighborRow][neighborCol]) 
+                        {
+                            Alive++;
+                        }
+                    }
+                }
+
+                if (world[row][col]) 
+                {
+                    
+                    if (Alive < 2 || Alive > 3) 
+                    {
+                        
+                        future[row][col] = false;
+                    } else 
+                    {
+                        
+                        future[row][col] = true;
+                    }
+                } else 
+                {
+                    
+                    if (Alive == 3) {
+                        
+                        future[row][col] = true;
+                    }
+                }
+            }
+        }
+
+        world = future;
+    }
+}
+
+int main(int argc, char* argv[]) 
+{
+    int n;
+    
+    n = std::atoi(argv[1]);
+
+    Steps(world, n);
+
+    for (const vector<bool>& row : world) 
+    {
+        for (bool cell : row) 
+        {
+            cout << (cell ? "O" : ".");
+        }
+        cout << '\n';
+    }
+    return 0;
+}
